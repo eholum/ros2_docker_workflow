@@ -17,9 +17,17 @@ Be sure to give containers display access with: `xhost +localhost`, prior to lau
 
 Change the default user info in the compose file to match your system setup.
 
+Then set a workspace to mount into the container.
+
 ```
+# Build the base image
 $ docker compose build develop
+
+# Launch a container with a new workspace
+$ export ROS_WORKSPACE=${SOME_WORKSPACE}
 $ docker compose up develop -d
+
+# Do stuff
 $ docker compose exec develop bash
 ```
 

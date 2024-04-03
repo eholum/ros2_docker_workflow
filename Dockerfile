@@ -95,6 +95,9 @@ RUN colcon mixin add default \
     https://raw.githubusercontent.com/colcon/colcon-metadata-repository/master/index.yaml && \
     colcon metadata update
 
+# Do sad things
+RUN sudo rosdep init && rosdep update
+
 # Set the entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN sudo chmod a+x /entrypoint.sh
