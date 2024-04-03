@@ -35,7 +35,7 @@ RUN apt-get update && \
     dirmngr \
     lsb-release \
     wget \
-    gnupg \
+    gnupg2 \
     sudo
 
 RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
@@ -81,7 +81,12 @@ RUN sudo apt-get update && \
         python3-colcon-common-extensions \
         python3-colcon-mixin \
         python3-rosdep \
-        python3-vcstool
+        python3-vcstool \
+        lld \
+        vim \
+        ccache \
+        clang \
+        clangd
 
 # Add defaults and update userhome perms
 COPY colcon-defaults.yaml ${USER_HOME}/.colcon/defaults.yaml
@@ -96,7 +101,7 @@ RUN colcon mixin add default \
     colcon metadata update
 
 # Do sad things
-RUN sudo rosdep init && rosdep update
+RUN sudo rosdep init && rosdep update --rosdistro ${ROS_DISTRO}
 
 # Set the entrypoint
 COPY entrypoint.sh /entrypoint.sh
