@@ -1,11 +1,16 @@
 # Support launching the development container
 version: "3.9"
 services:
-  base:
+  develop:
     build:
       context: .
       dockerfile: Dockerfile
-      target: ros-base
+      target: ros-develop
+      args:
+        - USERNAME=${STUDIO_USERNAME:-dev}
+        - USER_UID=${USER_UID:-501}
+        - USER_GID=${USER_GID:-501}
+        - ROS_DISTRO=${ROS_DISTRO:-iron}
     # Ensures signals are actually passed and reaped in the container for shutdowns.
     # https://docs.docker.com/compose/compose-file/compose-file-v3/#init
     init: true
@@ -16,12 +21,11 @@ services:
     network_mode: host
     ipc: host
     # Allows graphical programs in the container.
+    # NOTE: Gazebo is still broken on native macos :(, but this seems to work with Qt and RViz
     environment:
       - DISPLAY=host.docker.internal:0
       - QT_X11_NO_MITSHM=1
     volumes:
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
-
-  develop:
-    extends: base
+      - ${ROS_WORKSPACE:-/dev/null}:/home/${STUDIO_USERNAME:-dev}/ws
     command: sleep infinity

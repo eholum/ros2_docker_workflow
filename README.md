@@ -15,6 +15,8 @@ Be sure to give containers display access with: `xhost +localhost`, prior to lau
 
 ### Launching
 
+Change the default user info in the compose file to match your system setup.
+
 ```
 $ docker compose build develop
 $ docker compose up develop -d
