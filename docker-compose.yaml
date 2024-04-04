@@ -2,6 +2,7 @@
 version: "3.9"
 services:
   develop:
+    container_name: ${ROS_WORKSPACE_NAME:-ros}-develop-container
     build:
       context: .
       dockerfile: Dockerfile
