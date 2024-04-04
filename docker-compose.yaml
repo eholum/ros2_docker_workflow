@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
       target: ros-develop
       args:
-        - USERNAME=${STUDIO_USERNAME:-dev}
+        - USERNAME=${USERNAME:-dev}
         - USER_UID=${USER_UID:-501}
         - USER_GID=${USER_GID:-501}
         - ROS_DISTRO=${ROS_DISTRO:-iron}
@@ -27,5 +27,5 @@ services:
       - QT_X11_NO_MITSHM=1
     volumes:
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
-      - ${ROS_WORKSPACE:-/dev/null}:/home/${STUDIO_USERNAME:-dev}/ws
+      - ${ROS_WORKSPACE:-/dev/null}:/home/${USERNAME:-dev}/ws
     command: sleep infinity
