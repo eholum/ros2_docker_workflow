@@ -89,7 +89,8 @@ RUN sudo apt-get update && \
         vim \
         ccache \
         clang \
-        clangd
+        clangd \
+        less
 
 # Add defaults and update userhome perms
 COPY colcon-defaults.yaml ${USER_HOME}/.colcon/defaults.yaml
