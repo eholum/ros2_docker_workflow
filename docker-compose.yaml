@@ -1,7 +1,6 @@
 # Support launching the development container
 services:
-  develop:
-    container_name: ${ROS_WORKSPACE_NAME:-ros}-develop-container
+  develop-base:
     build:
       context: .
       dockerfile: Dockerfile
@@ -20,6 +19,23 @@ services:
     # Networking and IPC for ROS 2
     network_mode: host
     ipc: host
+    volumes:
+      - ${ROS_WORKSPACE:-/dev/null}:/home/${USERNAME:-dev}/ws
+      - ${HOME}/.ccache/:/home/${USERNAME:-dev}/.ccache:rw
+
+  develop:
+    extends: develop-base
+    container_name: ${ROS_WORKSPACE_NAME:-ros}-develop-container
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+    command: sleep infinity
+
+  develop-mac:
+    extends: develop-base
+    container_name: ${ROS_WORKSPACE_NAME:-ros}-develop-container-mac
     # Allows graphical programs in the container.
     # NOTE: Gazebo is still broken on native macos :(, but this seems to work with Qt and RViz
     environment:
@@ -27,5 +43,4 @@ services:
       - QT_X11_NO_MITSHM=1
     volumes:
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
-      - ${ROS_WORKSPACE:-/dev/null}:/home/${USERNAME:-dev}/ws
     command: sleep infinity
