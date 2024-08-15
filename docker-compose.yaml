@@ -23,7 +23,7 @@ services:
       - ${ROS_WORKSPACE:-/dev/null}:/home/${USERNAME:-dev}/ws
       - ${HOME}/.ccache/:/home/${USERNAME:-dev}/.ccache:rw
 
-  develop:
+  dev:
     extends: develop-base
     container_name: ${ROS_WORKSPACE_NAME:-ros}-develop-container
     environment:
@@ -33,7 +33,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
     command: sleep infinity
 
-  develop-mac:
+  dev-mac:
     extends: develop-base
     container_name: ${ROS_WORKSPACE_NAME:-ros}-develop-container-mac
     # Allows graphical programs in the container.
